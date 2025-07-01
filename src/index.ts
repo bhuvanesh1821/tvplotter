@@ -6,20 +6,28 @@ const forecastPlottingService = new ForecastPlottingService();
 
 function checkAvailableTimeAndSaveCSV() {
     const marketCalendar = {
-        monday: [{ SH: 0, SM: 0, EH: 23, EM: 59 }],
-        tuesday: [{ SH: 0, SM: 0, EH: 23, EM: 59 }],
-        wednesday: [{ SH: 0, SM: 0, EH: 23, EM: 59 }],
-        thursday: [{ SH: 0, SM: 0, EH: 23, EM: 59 }],
-        friday: [{ SH: 0, SM: 0, EH: 23, EM: 59 }],
-        saturday: [{ SH: 0, SM: 0, EH: 23, EM: 59 }],
-        sunday: [{ SH: 0, SM: 0, EH: 23, EM: 59 }],
+        monday: [{ SH: 9, SM: 0, EH: 23, EM: 59 }],
+        tuesday: [{ SH: 9, SM: 0, EH: 23, EM: 59 }],
+        wednesday: [{ SH: 9, SM: 0, EH: 23, EM: 59 }],
+        thursday: [{ SH: 9, SM: 0, EH: 23, EM: 59 }],
+        friday: [{ SH: 9, SM: 0, EH: 23, EM: 59 }],
+        saturday: [{ SH: 0, SM: 0, EH: 0, EM: 0 }],
+        sunday: [{ SH: 0, SM: 0, EH: 0, EM: 0 }],
     };
 
-    const timestamps = [
-        Date.now(), // current timestamp
-        Date.now() + 60 * 60 * 1000, // +1 hour
-        Date.now() + 24 * 60 * 60 * 1000, // +1 day
-    ];
+    // Calculate start time at the beginning of the current hour
+    const now = new Date();
+    const startHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 0, 0, 0);
+    const startTimestamp = startHour.getTime();
+    const endTimestamp = startTimestamp + 7 * 24 * 60 * 60 * 1000; // 1 week later
+    // Create an array of timestamps for every hour between start and end
+    const timestamps: number[] = [];
+    let currentTimestamp = startTimestamp;
+    while (currentTimestamp <= endTimestamp) {
+        timestamps.push(currentTimestamp);
+        // Add 1 hour (in milliseconds)
+        currentTimestamp += 60 * 60 * 1000;
+    }
 
     const results: any[] = [];
 
