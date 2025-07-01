@@ -40,7 +40,8 @@ function checkAvailableTimeAndSaveCSV() {
     const csvContent = csvHeader + csvRows;
 
     // Define output path
-    const outputPath = path.join(__dirname, "assets", "market_status.csv");
+    const timestampStr = Date.now().toString();
+    const outputPath = path.join(__dirname, "assets", `market_status_${timestampStr}.csv`);
 
     // Ensure assets folder exists
     if (!fs.existsSync(path.dirname(outputPath))) {
